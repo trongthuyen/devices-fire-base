@@ -1,0 +1,5 @@
+devices-fire-base
+
+add: redux tookit,  react toolkit query, antd,        lodash, moment,
+
+
