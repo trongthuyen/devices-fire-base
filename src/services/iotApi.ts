@@ -1,5 +1,6 @@
 import { doc, collection, addDoc, updateDoc } from "firebase/firestore";
 import { DbType } from "../firebase/config";
+import { StatusEnum } from "../utils/contants";
 
 /**
  *
@@ -32,8 +33,8 @@ export async function sendData(payload: any, db: DbType) {
       await addDoc(collection(db, "iothistories"), {
         name: payload.name,
         type: payload.type,
-        status: `${payload.oldStatus ? "OPEN" : "CLOSE"} >> ${
-          payload.status ? "OPEN" : "CLOSE"
+        status: `${payload.oldStatus ? StatusEnum.OPEN : StatusEnum.CLOSE} >> ${
+          payload.status ? StatusEnum.OPEN : StatusEnum.CLOSE
         }`,
         updateTime: payload.updateTime,
       });

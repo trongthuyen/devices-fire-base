@@ -1,9 +1,15 @@
 import styled, { css } from "styled-components";
+import { ModeType } from "../../utils/theme";
+
+interface StyledTypographyType {
+  type: string;
+  mode?: ModeType;
+}
 
 export const StyledTypography = styled.div`
   font-weight: bold;
 
-  ${({ type, mode }: { type: string; mode?: any }) => {
+  ${({ type, mode }: StyledTypographyType) => {
     switch (type) {
       case "h1":
         if (mode?.type) {

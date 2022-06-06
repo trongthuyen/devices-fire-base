@@ -2,20 +2,22 @@ import { Switch } from 'antd'
 import moment from 'moment';
 import { db } from '../../firebase/config';
 import { sendData } from '../../services/iotApi';
+import { StatusEnum } from '../../utils/contants';
 import { Typography } from '../Typography/Typography';
 import { StyledSwitchBox } from './style';
 
-export function SwitchBox(props: any) {
-	const { mode, onClick, title, data } = props;
+export function SwitchBox(props: any) { //define SB Props
+	const { onClick, title, data } = props;
 
-	const handleChange = (checked: boolean, event: Event) => {
+	const handleChange = (checked: boolean) => {
+		const updateTime = `${moment().date()}-${moment().month()}-${moment().year()} ${moment().hour()}:${moment().minute()}`;
 		const payload = {
 			id: data.id,
 			name: data.name,
 			type: data.type,
 			oldStatus: data.status,
 			status: data.type === 'motion' ? Math.floor(Math.random() * 1000) : checked ? 1 : 0,
-			updateTime: moment().format('hh:mm dd:mm:yyyy'),
+			updateTime: updateTime,
 		}
 		sendData(payload, db);
 	};
@@ -25,16 +27,17 @@ export function SwitchBox(props: any) {
 
 	return (
 		<StyledSwitchBox onClick={() => onClick(data.type)}>
-			<Typography mode={mode} type='h2' text={title} />
-			<p>Status: <span>{data.type === 'motion' ? `${data.status} LUX` : data.status ? 'OPEN' : 'CLOSE'}</span></p>
+			<Typography type='h4' text={title} />
+			<p><b>{data.type === 'motion' ? `${data.status} ${StatusEnum.LUX}` : data.status ? StatusEnum.OPEN : StatusEnum.CLOSE}</b></p>
 			<p>Since: <span>{data.updateTime}</span></p>
 			<div className='btn-switch'>
-				<Switch
-					// disabled={data.status > 1 ? true : false}
-					defaultChecked={data.status ? true : false}
-					onClick={handleClick}
-					onChange={handleChange}
-				/>
+				{data.type !== "motion" &&
+					<Switch
+						defaultChecked={data.status}
+						onClick={handleClick}
+						onChange={handleChange}
+					/>
+				}
 			</div>
 		</StyledSwitchBox>
 	)

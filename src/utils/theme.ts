@@ -1,4 +1,20 @@
-export const theme = {
+export interface ModeType {
+  type: boolean;
+  backgroundColor: string;
+  colorText: string;
+}
+
+interface KeyType {
+  [key: string]: any;
+}
+export interface ThemeType extends KeyType {
+  dark: ModeType;
+  light: ModeType;
+  breakPoints: any;
+  widthDrawer: number;
+}
+
+export const theme: ThemeType = {
   dark: {
     type: false,
     backgroundColor: "#333",

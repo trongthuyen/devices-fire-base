@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const StyledDrawer = styled.div.attrs(({ mode }: { mode: any }) => ({
   mode: mode,
 }))`
-  .drawer-component * {
-    color: ${(mode: any) => mode.colorText};
+  .ant-drawer-title {
+    color: ${(mode: any) => mode.colorText} !important;
   }
 `;
 

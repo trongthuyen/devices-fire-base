@@ -2,6 +2,8 @@ import type { ColumnsType } from 'antd/lib/table';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from '../../firebase/config';
+import { ThemeEnum, THEME_MODE } from '../../utils/contants';
+import { theme } from '../../utils/theme';
 import { DrawerSwitches } from '../DrawerSwitches/DrawerSwitches';
 import { Table } from '../Table/Table';
 import { Typography } from '../Typography/Typography';
@@ -18,7 +20,7 @@ const columns: ColumnsType<DataType> = [
 	{
 		title: 'Name',
 		dataIndex: 'name',
-		key: 'name',
+		key: 'type',
 		className: 'table-cell-design'
 	},
 	{
@@ -30,18 +32,18 @@ const columns: ColumnsType<DataType> = [
 	{
 		title: 'Status',
 		dataIndex: 'status',
-		key: 'status',
+		key: 'type',
 		className: 'table-cell-design'
 	},
 	{
 		title: 'Time',
 		dataIndex: 'updateTime',
-		key: 'time',
+		key: 'type',
 		className: 'table-cell-design'
 	},
 ];
 
-export const ActivityLog = ({ mode }: any) => {
+export const ActivityLog = () => {
 	const [historyData, setHistoryData] = useState<any>([]);
 	const [typeHistory, setTypeHistory] = useState('door');
 	const handleClickSwitchBox = (type: string) => {
@@ -63,10 +65,8 @@ export const ActivityLog = ({ mode }: any) => {
 
 	return (
 		<StyledActivityLog>
-			<Typography mode={mode} type='h2' text={typeHistory} />
-			<DrawerSwitches mode={mode} onClick={handleClickSwitchBox} />
+			<DrawerSwitches mode={theme[localStorage.getItem(THEME_MODE) || ThemeEnum.LIGHT]} onClick={handleClickSwitchBox} />
 			<Table
-				mode={mode}
 				columns={columns}
 				dataSource={historyData}
 				pagination={{ pageSize: 10 }}
